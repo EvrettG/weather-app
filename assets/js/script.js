@@ -2,10 +2,14 @@ console.log('test')
 // tells js what and where for the litener app
 const myform = document.getElementById('myform')
 
+// looks for the today id for appending cards to
+const todayC = document.querySelector('#today');
 
 myform.addEventListener("submit", function(event) {
     event.preventDefault();
 
+    // used for weather array
+    z = 0
     // gets the value from the input field
     const city = document.getElementById('citySearch');
     console.log(city.value);
@@ -31,6 +35,28 @@ myform.addEventListener("submit", function(event) {
       console.log(data.list[0].main.humidity)
       console.log(data.list[0].wind.speed)
       console.log(data.list[0].weather[0].description)
+
+      // creates the card for weather || Note move to seperate function later
+      const dayCard = document.createElement('div');
+      const head2 = document.createElement('h2');
+      const tempP = document.createElement('p');
+      const windP = document.createElement('p');
+      const humidityP = document.createElement('p');
+
+      // sets the div's class to card
+      dayCard.setAttribute("class", "card");
+
+      head2.textContent = data.city.name + " " + data.list[0].weather[z].description;
+      tempP.textContent = "The tempretur is " + data.list[0].main.temp + '\u00B0C' 
+      windP.textContent = "The windspeed is " + data.list[0].wind.speed + "KPH"
+      humidityP.textContent = data.list[0].main.humidity + "%"
+
+      todayC.appendChild(dayCard);
+
+      dayCard.appendChild(head2);
+      dayCard.appendChild(tempP);
+      dayCard.appendChild(windP);
+      dayCard.appendChild(humidityP);
     });
 });
 
