@@ -36,6 +36,12 @@ myform.addEventListener("submit", function(event) {
       console.log(data.list[0].wind.speed)
       console.log(data.list[0].weather[0].description)
 
+      // Selects the weather Icon from the list and creates an image to pe appended to a card
+      const unfilteredIcon = data.list[0].weather[z].icon;
+      const filteredIcon = unfilteredIcon.replace(/"/g, '');
+      const iIcon = new Image();
+      iIcon.src = `./assets/images/${filteredIcon}.png`
+
       // creates the card for weather || Note move to seperate function later
       const dayCard = document.createElement('div');
       const head2 = document.createElement('h2');
@@ -46,17 +52,23 @@ myform.addEventListener("submit", function(event) {
       // sets the div's class to card
       dayCard.setAttribute("class", "card");
 
-      head2.textContent = data.city.name + " " + data.list[0].weather[z].description;
-      tempP.textContent = "The tempretur is " + data.list[0].main.temp + '\u00B0C' 
-      windP.textContent = "The windspeed is " + data.list[0].wind.speed + "KPH"
-      humidityP.textContent = data.list[0].main.humidity + "%"
+      // Populates the information from the object to the fields
+      head2.textContent = data.city.name +" " + data.list[0].weather[z].description;
+      head2.appendChild(iIcon);
+      tempP.textContent = "The tempretur is " + data.list[0].main.temp + '\u00B0C' ;
+      windP.textContent = "The windspeed is " + data.list[0].wind.speed + "KPH";
+      humidityP.textContent = data.list[0].main.humidity + "%";
 
+      // appends the div to the today field
       todayC.appendChild(dayCard);
 
+      // appends the fields with data to the card
       dayCard.appendChild(head2);
       dayCard.appendChild(tempP);
       dayCard.appendChild(windP);
       dayCard.appendChild(humidityP);
+
+      
     });
 });
 
