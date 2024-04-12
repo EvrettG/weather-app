@@ -1,3 +1,51 @@
 header {
  background-color: aqua;
-};
+ padding-bottom: 10px;
+ width: 100%;
+ margin-bottom: 10px;
+}
+
+form{
+    justify-content: center;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.flexContainer {
+    
+    display: flex;
+    flex-direction: row;
+    height: 600px;
+    /* background-color: lightgreen; */
+}
+
+.leftLane {
+    background-color: lightcoral;
+    
+    min-width: 30%;
+}
+
+.test2 {
+    background-color: lightskyblue;
+    
+    min-width: 70%;
+}
+
+.test1 {
+    background-color: darkgoldenrod;
+    border-top: dotted darkslategray 2px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.today {
+    border: solid black 2px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.day5{
+    display: flex;
+    flex-direction: row;
+}
+
