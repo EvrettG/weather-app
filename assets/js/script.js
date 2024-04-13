@@ -5,6 +5,9 @@ const myform = document.getElementById('myform')
 // looks for the today id for appending cards to
 const todayC = document.querySelector('#today');
 
+
+let cities = JSON.parse(localStorage.getItem('favCities'))
+
 myform.addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -37,12 +40,14 @@ myform.addEventListener("submit", function(event) {
       console.log(data.list[0].weather[0].description)
 
       // Selects the weather Icon from the list and creates an image to pe appended to a card
+      // turn into function
       const unfilteredIcon = data.list[0].weather[z].icon;
       const filteredIcon = unfilteredIcon.replace(/"/g, '');
       const iIcon = new Image();
       iIcon.src = `./assets/images/${filteredIcon}.png`
 
       // creates the card for weather || Note move to seperate function later
+      // const cityB = document.createElement('div')
       const dayCard = document.createElement('div');
       const head2 = document.createElement('h2');
       const tempP = document.createElement('p');
@@ -73,4 +78,21 @@ myform.addEventListener("submit", function(event) {
 });
 
 
+// may need to move function up
+function addCityStorage(){
+  // checks if cities array has been made otherwise makes it
+  if (cities === null){
+    cities = [];
+  }
+  // checks if city is already in storage and cancels function if it is
+  if (cities.incudes(data.city.name)){
+    return;
+  }
+  // adds city to storage
+  cities.push(data.city.name);
+  let citiesStringified = JSON.stringify(cities);
+  localStorage.setItem('favCities', citiesStringified);
+}
 
+// confirms script ran without issues
+console.log("Test2");
