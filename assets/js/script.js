@@ -14,40 +14,104 @@ const leftLane = document.getElementById('leftLane')
 // retrives list of cities from storage
 let cities = JSON.parse(localStorage.getItem('favCities'))
 
+function clearData(){
+  todayC.innerHTML = '';
+  days.innerHTML = '';
+}
+
 // creates a saved button when they succefully search a city
 function addButton(data){
+  console.log('test3')
   // Create a button element
   const button = document.createElement('button');
-
+  console.log(data.city.name)
   // Set the button's text
   button.innerText = data.city.name;
-
   // give the button the necesay class and id
   button.classList.add('cityButton');
   button.setAttribute('id', 'cityButton');
-
   button.addEventListener('click', function() {
-    alert(button.innerText);
+    clearData()
+    const cityName = button.innerText.replace('\u2715', '');
+    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName},AU&appid=cdfa38b1cec3b4eb7313441f0358baa1&units=metric`;
+    fetch(apiUrl)
+    //  
+    .then(function (response) {
+        if (response.status !== 200) {
+            alert(`Invalid city`);
+          }
+    // 
+      return response.json();
+    })
+    .then(function (data) {
+      createCard(data);
+    });
   });
 
   // Append the button to the section
   leftLane.appendChild(button);
+  const deleteB = document.createElement('button');
+  deleteB.innerText = '\u2715';
+  deleteB.classList.add('delete');
+  deleteB.setAttribute('id', 'delete');
+  deleteB.addEventListener('click', function(event) {
+    event.stopPropagation(); 
+    alert('Inner Button clicked!');
+  });
+  button.appendChild(deleteB);
 }
 
+// function to add buttons from local storage
+function loadButtons(){
+  if (cities === null){
+    cities = [];
+  };
+  for(let x =0; x < cities.length; x++) {
+  const button = document.createElement('button');
+  
+  button.classList.add('cityButton');
+  button.setAttribute('id', 'cityButton');
+  button.innerText = cities[x]
+  button.addEventListener('click', function() {
+    clearData()
+    const cityName = button.innerText.replace('\u2715', '');
+    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName},AU&appid=cdfa38b1cec3b4eb7313441f0358baa1&units=metric`;
+    fetch(apiUrl)
+    .then(function (response) {
+        if (response.status !== 200) {
+            alert(`Invalid city`);
+          }
+      return response.json();
+    })
+    .then(function (data) {
+      createCard(data);
+    });
+  });
+  leftLane.appendChild(button);
+  const deleteB = document.createElement('button');
+  deleteB.innerText = '\u2715';
+  deleteB.classList.add('delete');
+  deleteB.setAttribute('id', 'delete');
+  deleteB.addEventListener('click', function(event) {
+    event.stopPropagation(); 
+    alert('Inner Button clicked!');
+  });
+
+// Append the inner button to the main button
+button.appendChild(deleteB);
 
 
+}}
 
 // adds the city to storage
-function addCityStorage(){
+function addCityStorage(data){
   // checks if cities array has been made otherwise makes it
   if (cities === null){
     cities = [];
   }
   // checks if city is already in storage and cancels function if it is
-  if (cities.incudes(data.city.name)){
-    alert("city already selected")
-    return;
-  }
+
+
   // adds city to storage
   cities.push(data.city.name);
   let citiesStringified = JSON.stringify(cities);
@@ -67,7 +131,6 @@ function createCard(data){
     iIcon.src = `./assets/images/${filteredIcon}.png`
 
     // creates the card for weather || Note move to seperate function later
-    // const cityB = document.createElement('div')
     const dayCard = document.createElement('div');
     const head2 = document.createElement('h2');
     const tempP = document.createElement('p');
@@ -105,7 +168,7 @@ function createCard(data){
 
 myform.addEventListener("submit", function(event) {
     event.preventDefault();
-
+    
 
     // gets the value from the input field
     const city = document.getElementById('citySearch');
@@ -113,30 +176,30 @@ myform.addEventListener("submit", function(event) {
 
      // the url for the search term
      const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city.value},AU&appid=cdfa38b1cec3b4eb7313441f0358baa1&units=metric`;
-
-    //  used for testing url + api key
-    // console.log(apiUrl);
-
     fetch(apiUrl)
-    
+    //  
     .then(function (response) {
         if (response.status !== 200) {
             alert(`Invalid city`);
           }
-          
+    // 
       return response.json();
     })
     .then(function (data) {
+      if (cities.includes(data.city.name)){
+        alert("city already selected")
+        return;
+      }
       // used for tessting data return
       console.log(data);
       // console.log(data.list[0].main.temp);
       // console.log(data.list[0].main.humidity);
       // console.log(data.list[0].wind.speed);
       // console.log(data.list[0].weather[0].description);
-
+      clearData()
       createCard(data);
       addButton(data);
-
+      // addCityStorage(data);
 
       
     });
@@ -144,5 +207,8 @@ myform.addEventListener("submit", function(event) {
 
 
 
+
+
+loadButtons()
 // confirms script ran without issues
 console.log("Test2");
