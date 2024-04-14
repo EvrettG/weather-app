@@ -13,16 +13,11 @@ const leftLane = document.getElementById('leftLane')
 
 // retrives list of cities from storage
 let cities = JSON.parse(localStorage.getItem('favCities'))
-
+console.log(cities)
 // clears existing weather for new weather data
 function clearData(){
   todayC.innerHTML = '';
   days.innerHTML = '';
-}
-
-// delete button
-function deleteButton(){
-
 }
 
 // creates a saved button when they succefully search a city
@@ -62,6 +57,10 @@ function addButton(data){
   deleteB.setAttribute('id', 'delete');
   deleteB.addEventListener('click', function(event) {
     event.stopPropagation(); 
+    const stringTarget = deleteB.parentElement.innerText.replace('\u2715', '');
+    cities = cities.filter(item => item != stringTarget)
+    let citiesStringified = JSON.stringify(cities);
+    localStorage.setItem('favCities', citiesStringified);
     const target = deleteB.parentElement;
     target.remove();
   });
@@ -101,6 +100,10 @@ function loadButtons(){
   deleteB.setAttribute('id', 'delete');
   deleteB.addEventListener('click', function(event) {
     event.stopPropagation(); 
+    const stringTarget = deleteB.parentElement.innerText.replace('\u2715', '');
+    cities = cities.filter(item => item != stringTarget)
+    let citiesStringified = JSON.stringify(cities);
+    localStorage.setItem('favCities', citiesStringified);
     const target = deleteB.parentElement;
     target.remove();
   });
@@ -212,6 +215,13 @@ myform.addEventListener("submit", function(event) {
       
     });
 });
+
+function deleteStorage(){
+  cities = cities.filter()
+}
+
+
+
 
 
 loadButtons()
