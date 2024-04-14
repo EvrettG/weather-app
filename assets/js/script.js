@@ -144,6 +144,7 @@ function createCard(data){
     // creates the card for weather || Note move to seperate function later
     const dayCard = document.createElement('div');
     const head2 = document.createElement('h2');
+    const date = document.createElement('p')
     const tempP = document.createElement('p');
     const windP = document.createElement('p');
     const humidityP = document.createElement('p');
@@ -151,12 +152,15 @@ function createCard(data){
     // sets the div's class to card
     dayCard.setAttribute("class", "card");
 
+    const dateString = data.list[x].dt_txt;
+    const dateOnly = dateString.split(" ")[0];
+
     // Populates the information from the object to the fields
-    head2.textContent = data.city.name +" " + data.list[x].weather[z].description;
-    head2.appendChild(iIcon);
+    head2.textContent = data.city.name; 
+    date.textContent = dateOnly;
     tempP.textContent = "The temperature is " + data.list[x].main.temp + '\u00B0C' ;
     windP.textContent = "The windspeed is " + data.list[x].wind.speed + "KPH";
-    humidityP.textContent = data.list[x].main.humidity + "%";
+    humidityP.textContent = data.list[x].main.humidity + "% Hummidity";
 
     // appends the div to the today field
     if (i === 0){
@@ -170,6 +174,8 @@ function createCard(data){
 
     // appends the fields with data to the card
     dayCard.appendChild(head2);
+    dayCard.appendChild(date)
+    dayCard.appendChild(iIcon);
     dayCard.appendChild(tempP);
     dayCard.appendChild(windP);
     dayCard.appendChild(humidityP);
@@ -215,14 +221,6 @@ myform.addEventListener("submit", function(event) {
       
     });
 });
-
-function deleteStorage(){
-  cities = cities.filter()
-}
-
-
-
-
 
 loadButtons()
 // confirms script ran without issues
