@@ -14,9 +14,15 @@ const leftLane = document.getElementById('leftLane')
 // retrives list of cities from storage
 let cities = JSON.parse(localStorage.getItem('favCities'))
 
+// clears existing weather for new weather data
 function clearData(){
   todayC.innerHTML = '';
   days.innerHTML = '';
+}
+
+// delete button
+function deleteButton(){
+
 }
 
 // creates a saved button when they succefully search a city
@@ -56,7 +62,8 @@ function addButton(data){
   deleteB.setAttribute('id', 'delete');
   deleteB.addEventListener('click', function(event) {
     event.stopPropagation(); 
-    alert('Inner Button clicked!');
+    const target = deleteB.parentElement;
+    target.remove();
   });
   button.appendChild(deleteB);
 }
@@ -94,7 +101,8 @@ function loadButtons(){
   deleteB.setAttribute('id', 'delete');
   deleteB.addEventListener('click', function(event) {
     event.stopPropagation(); 
-    alert('Inner Button clicked!');
+    const target = deleteB.parentElement;
+    target.remove();
   });
 
 // Append the inner button to the main button
@@ -199,14 +207,11 @@ myform.addEventListener("submit", function(event) {
       clearData()
       createCard(data);
       addButton(data);
-      // addCityStorage(data);
+      addCityStorage(data);
 
       
     });
 });
-
-
-
 
 
 loadButtons()
