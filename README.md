@@ -18,6 +18,8 @@ Switch to lon and lat co-ordinates for supported weather data
 Add confirm to delete button
 System to check if city corect or if other city is wanted
 Further simplification of code
+Fancier Style sheets or more refined css
+Further code clean up
 
 ## Credits
 https://openweathermap.org/ - For weather API
